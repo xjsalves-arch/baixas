@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baixa de Serviços MDU</title>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1558b0;
+      --primary-light: #e8f0fe;
+      --success: #34a853;
+      --warning: #fbbc04;
+      --danger: #ea4335;
+      --dark: #1e1e2e;
+      --gray-100: #f8f9fa;
+      --gray-200: #e9ecef;
+      --gray-300: #dee2e6;
+      --gray-400: #ced4da;
+      --gray-500: #adb5bd;
+      --gray-600: #6c757d;
+      --gray-700: #495057;
+      --gray-800: #343a40;
+      --white: #ffffff;
+      --shadow: 0 2px 12px rgba(0,0,0,0.10);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --claro-red: #cc1016;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      padding: 20px 12px 40px;
+      color: var(--gray-800);
+    }
+
+    /* ── HEADER ── */
+    .app-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    /* Esfera Claro — proporção 1:1 */
+    .claro-sphere-wrap {
+      display: inline-block;
+      width: 140px;
+      height: 140px;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 8px 28px rgba(180,10,16,0.55));
+    }
+
+    .app-header p {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.88rem;
+      margin-top: 4px;
+      letter-spacing: 0.4px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      max-width: 760px;
+      margin: 0 auto 20px;
+    }
+
+    .card-header {
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .card-header.blue   { background: linear-gradient(90deg, #1a73e8, #4285f4); color: #fff; }
+    .card-header.green  { background: linear-gradient(90deg, #1e8449, #27ae60); color: #fff; }
+    .card-header.orange { background: linear-gradient(90deg, #e67e22, #f39c12); color: #fff; }
+    .card-header.purple { background: linear-gradient(90deg, #6c3483, #8e44ad); color: #fff; }
+    .card-header.teal   { background: linear-gradient(90deg, #0e6655, #1abc9c); color: #fff; }
+    .card-header.red    { background: linear-gradient(90deg, #922b21, #e74c3c); color: #fff; }
+
+    .card-header .icon { font-size: 1.3rem; line-height: 1; }
+    .card-header h2    { font-size: 1rem; font-weight: 600; letter-spacing: 0.3px; }
+
+    .card-body { padding: 20px 22px; }
+
+    /* ── GRID ── */
+    .form-grid        { display: grid; gap: 16px; }
+    .form-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+    @media (max-width: 580px) {
+      .form-grid.cols-2,
+      .form-grid.cols-3 { grid-template-columns: 1fr; }
+    }
+
+    .form-group      { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    label .required { color: var(--danger); margin-left: 3px; }
+
+    label .badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.70rem;
+      padding: 1px 7px;
+      border-radius: 20px;
+      margin-left: 6px;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      padding: 10px 13px;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: var(--gray-800);
+      background: var(--gray-100);
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      width: 100%;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="date"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(26,115,232,0.12);
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236c757d' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 36px;
+    }
+
+    /* ── DIO / NAP ── */
+    .dynamic-section {
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      background: var(--gray-100);
+    }
+
+    .dynamic-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .dynamic-header span {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .items-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+
+    .item-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: #fff;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      animation: slideIn .18s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .item-row .item-num {
+      min-width: 24px; height: 24px;
+      background: var(--primary); color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 700; flex-shrink: 0;
+    }
+
+    .item-row input {
+      flex: 1; padding: 7px 10px;
+      border: 1px solid var(--gray-300);
+      border-radius: 6px; font-size: .88rem;
+      background: var(--gray-100);
+    }
+
+    .item-row input:focus { border-color: var(--primary); background: #fff; outline: none; }
+
+    .item-row .remove-btn {
+      background: none; border: none; color: var(--danger);
+      cursor: pointer; font-size: 1.1rem; padding: 2px 5px;
+      border-radius: 4px; transition: background .15s; flex-shrink: 0;
+    }
+    .item-row .remove-btn:hover { background: #fdecea; }
+
+    .add-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: none; border: 1.5px dashed var(--primary);
+      color: var(--primary); padding: 7px 14px;
+      border-radius: var(--radius-sm); cursor: pointer;
+      font-size: .85rem; font-weight: 600;
+      transition: background .15s, color .15s;
+    }
+    .add-btn:hover { background: var(--primary-light); }
+
+    /* ── CABO DROP ── */
+    .cabo-drop-group { display: flex; gap: 10px; }
+    .cabo-drop-group input  { flex: 1; }
+    .cabo-drop-group select { flex: 0 0 130px; }
+
+    /* ── PREVIEW ── */
+    .preview-card {
+      background: var(--dark);
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 760px;
+      margin: 0 auto 20px;
+      box-shadow: var(--shadow-lg);
+      display: none;
+    }
+    .preview-card.visible { display: block; }
+
+    .preview-header {
+      background: linear-gradient(90deg, #1a73e8, #6c63ff);
+      padding: 14px 22px; color: #fff;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .preview-header h3 { font-size: .98rem; font-weight: 700; }
+
+    .preview-body {
+      padding: 20px 22px; color: #e0e0e0;
+      font-family: 'Courier New', monospace;
+      font-size: .88rem; line-height: 1.7;
+      white-space: pre-wrap; word-break: break-word;
+    }
+
+    /* ── ACTIONS ── */
+    .actions {
+      max-width: 760px; margin: 0 auto 30px;
+      display: flex; gap: 12px; flex-wrap: wrap;
+    }
+
+    .btn {
+      flex: 1; min-width: 140px;
+      padding: 13px 20px; border: none;
+      border-radius: var(--radius-sm);
+      font-size: .95rem; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: transform .15s, box-shadow .15s, filter .15s;
+    }
+    .btn:hover  { filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary { background: linear-gradient(135deg, #1a73e8, #4285f4); color: #fff; }
+    .btn-success { background: linear-gradient(135deg, #1e8449, #27ae60); color: #fff; }
+    .btn-warning { background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff; }
+    .btn-purple  { background: linear-gradient(135deg, #6c3483, #9b59b6); color: #fff; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--dark); color: #fff;
+      padding: 12px 24px; border-radius: 50px;
+      font-size: .9rem; font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      transition: transform .3s cubic-bezier(.4,2,.6,1);
+      z-index: 9999; white-space: nowrap;
+    }
+    .toast.show    { transform: translateX(-50%) translateY(0); }
+    .toast.success { background: linear-gradient(135deg, #1e8449, #27ae60); }
+    .toast.error   { background: linear-gradient(135deg, #922b21, #e74c3c); }
+
+    /* ── HISTÓRICO ── */
+    .historico-card { max-width: 760px; margin: 0 auto 30px; }
+    .historico-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .historico-item {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius-sm);
+      padding: 13px 16px;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
+      cursor: pointer; transition: background .15s;
+    }
+    .historico-item:hover { background: rgba(255,255,255,.14); }
+
+    .historico-item .hi-info .hi-cond { font-weight: 700; color: #fff; font-size: .95rem; }
+    .historico-item .hi-info .hi-meta { color: rgba(255,255,255,.55); font-size: .78rem; margin-top: 2px; }
+    .historico-item .hi-actions       { display: flex; gap: 6px; flex-shrink: 0; }
+
+    .icon-btn {
+      background: rgba(255,255,255,.12); border: none; color: #fff;
+      border-radius: 6px; padding: 6px 10px; cursor: pointer;
+      font-size: .85rem; transition: background .15s;
+    }
+    .icon-btn:hover        { background: rgba(255,255,255,.22); }
+    .icon-btn.danger:hover { background: rgba(234,67,53,.4); }
+
+    .empty-state {
+      text-align: center; color: rgba(255,255,255,.35);
+      padding: 30px; font-size: .9rem;
+    }
+
+    .section-title {
+      color: #fff; font-size: 1rem; font-weight: 700;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .hint { font-size: .76rem; color: var(--gray-500); margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     HEADER — Logo Claro (esfera 3D, 1:1)
+══════════════════════════════════════ -->
+<div class="app-header">
+
+  <!-- SVG 1:1 — esfera vermelha glossy com wordmark Claro -->
+  <div class="claro-sphere-wrap">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         width="140" height="140" aria-label="Logo Claro">
+      <defs>
+        <!-- Gradiente radial: simula o brilho da esfera -->
+        <radialGradient id="sphereGrad" cx="42%" cy="28%" r="65%">
+          <stop offset="0%"   stop-color="#ff5c5c"/>
+          <stop offset="35%"  stop-color="#d9111a"/>
+          <stop offset="75%"  stop-color="#a00010"/>
+          <stop offset="100%" stop-color="#6b0008"/>
+        </radialGradient>
+
+        <!-- Reflexo superior esquerdo -->
+        <radialGradient id="glossTop" cx="38%" cy="22%" r="40%">
+          <stop offset="0%"  stop-color="#ffffff" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Reflexo inferior suave -->
+        <radialGradient id="glossBottom" cx="60%" cy="92%" r="35%">
+          <stop offset="0%"  stop-color="#ff8080" stop-opacity="0.30"/>
+          <stop offset="100%" stop-color="#ff8080" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- Sombra projetada embaixo -->
+        <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"  stop-color="#000" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+        </radialGradient>
+
+        <clipPath id="circleClip">
+          <circle cx="100" cy="100" r="96"/>
+        </clipPath>
+      </defs>
+
+      <!-- Sombra embaixo da esfera -->
+      <ellipse cx="100" cy="194" rx="68" ry="9" fill="url(#shadowGrad)"/>
+
+      <!-- Corpo da esfera -->
+      <circle cx="100" cy="100" r="96" fill="url(#sphereGrad)"/>
+
+      <!-- Reflexo brilhante superior -->
+      <circle cx="100" cy="100" r="96" fill="url(#glossTop)" clip-path="url(#circleClip)"/>
+
+      <!-- Reflexo suave inferior -->
+      <circle cx="100" cy="100" r="96" fill="url(#glossBottom)" clip-path="url(#circleClip)"/>
+
+      <!-- Borda sutil escura para definir a esfera -->
+      <circle cx="100" cy="100" r="96" fill="none" stroke="#7a0008" stroke-width="1.5" opacity="0.6"/>
+
+      <!-- ── WORDMARK "Claro" ── -->
+      <text
+        x="18" y="118"
+        font-family="'Arial Rounded MT Bold','Arial Black',Arial,sans-serif"
+        font-size="52"
+        font-weight="900"
+        fill="#ffffff"
+        letter-spacing="-0.5"
+      >Claro</text>
+
+      <!-- ── SÍMBOLO DE SINAL (três traços estilizados) ── -->
+      <!-- traço diagonal ascendente (longo) -->
+      <line x1="155" y1="72" x2="174" y2="46"
+            stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+      <!-- traço horizontal (médio) -->
+      <line x1="155" y1="78" x2="180" y2="78"
+            stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+      <!-- traço diagonal descendente (curto) -->
+      <line x1="155" y1="84" x2="166" y2="100"
+            stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <p>Registro de Baixa de Serviços em Condomínios</p>
+</div>
+
+<!-- SEÇÃO 1: Identificação -->
+<div class="card">
+  <div class="card-header blue">
+    <span class="icon">📋</span>
+    <h2>Identificação do Serviço</h2>
+  </div>
+  <div class="card-body">
+    <div class="form-grid cols-2">
+      <div class="form-group">
+        <label for="data">Data <span class="required">*</span></label>
+        <input type="date" id="data" />
+      </div>
+      <div class="form-group">
+        <label for="equipe">Equipe <span class="required">*</span></label>
+        <input type="text" id="equipe" placeholder="Ex: Equipe Alpha / João e Pedro" />
+      </div>
+      <div class="form-group">
+        <label for="condominio">Condomínio <span class="required">*</span></label>
+        <input type="text" id="condominio" placeholder="Nome do condomínio" />
+      </div>
+      <div class="form-group">
+        <label for="endereco">Endereço <span class="required">*</span></label>
+        <input type="text" id="endereco" placeholder="Rua, número, bairro, cidade" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 2: Infraestrutura -->
+<div class="card">
+  <div class="card-header green">
+    <span class="icon">🏢</span>
+    <h2>Infraestrutura do Condomínio</h2>
+  </div>
+  <div class="card-body">
+    <div class="form-grid">
+      <div class="form-grid cols-2">
+        <div class="form-group">
+          <label for="hps">Quantidade de HPs <span class="required">*</span></label>
+          <input type="number" id="hps" placeholder="Ex: 48" min="0" />
+        </div>
+        <div class="form-group">
+          <label for="fusoes">Fusões</label>
+          <input type="number" id="fusoes" placeholder="Qtd. de fusões realizadas" min="0" />
+        </div>
+      </div>
+      <div class="form-group full">
+        <label for="disposicao_aptos">Disposição dos Aptos <span class="badge">Texto livre</span></label>
+        <textarea id="disposicao_aptos" placeholder="Descreva a disposição dos apartamentos..."></textarea>
+      </div>
+      <div class="form-group full">
+        <label for="caixa_m">Caixa M <span class="badge">Texto livre</span></label>
+        <textarea id="caixa_m" placeholder="Descreva a localização, tipo e configuração da Caixa M..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 3: DIO -->
+<div class="card">
+  <div class="card-header orange">
+    <span class="icon">🔲</span>
+    <h2>DIO — Distribuidor Interno Óptico</h2>
+  </div>
+  <div class="card-body">
+    <div class="dynamic-section">
+      <div class="dynamic-header">
+        <span>Unidades de DIO instaladas</span>
+      </div>
+      <div class="items-list" id="dio-list"></div>
+      <button class="add-btn" onclick="addItem('dio')">➕ Adicionar DIO</button>
+    </div>
+    <p class="hint" style="margin-top:8px;">Para cada DIO, informe a quantidade de portas e o andar onde está instalado.</p>
+  </div>
+</div>
+
+<!-- SEÇÃO 4: NAP -->
+<div class="card">
+  <div class="card-header purple">
+    <span class="icon">📦</span>
+    <h2>NAP — Nó de Acesso Passivo</h2>
+  </div>
+  <div class="card-body">
+    <div class="dynamic-section">
+      <div class="dynamic-header">
+        <span>Unidades de NAP instaladas</span>
+      </div>
+      <div class="items-list" id="nap-list"></div>
+      <button class="add-btn" onclick="addItem('nap')">➕ Adicionar NAP</button>
+    </div>
+    <p class="hint" style="margin-top:8px;">Para cada NAP, informe a quantidade de portas e o andar onde está instalado.</p>
+  </div>
+</div>
+
+<!-- SEÇÃO 5: Cabos -->
+<div class="card">
+  <div class="card-header teal">
+    <span class="icon">🔌</span>
+    <h2>Cabos Utilizados</h2>
+  </div>
+  <div class="card-body">
+    <div class="form-grid cols-2">
+      <div class="form-group full">
+        <label>Cabo Drop <span class="required">*</span></label>
+        <div class="cabo-drop-group">
+          <input type="number" id="cabo_drop_metros" placeholder="Metragem (m)" min="0" step="0.5" />
+          <select id="cabo_drop_tipo">
+            <option value="">Tipo de fibra</option>
+            <option value="4FO">4 FO</option>
+            <option value="8FO">8 FO</option>
+            <option value="12FO">12 FO</option>
+          </select>
+        </div>
+        <p class="hint">Informe a metragem utilizada e o tipo de fibra do cabo drop.</p>
+      </div>
+      <div class="form-group">
+        <label for="cabo_rise">Cabo Rise / Flat</label>
+        <input type="number" id="cabo_rise" placeholder="Metragem utilizada (m)" min="0" step="0.5" />
+        <p class="hint">Somente a metragem utilizada.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEÇÃO 6: Observações -->
+<div class="card">
+  <div class="card-header red">
+    <span class="icon">📝</span>
+    <h2>Observações</h2>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <label for="observacoes">Observações Gerais <span class="badge">Opcional</span></label>
+      <textarea id="observacoes" style="min-height:100px;" placeholder="Registre aqui qualquer ocorrência, pendência, dificuldade técnica, materiais extras utilizados, etc."></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- Ações -->
+<div class="actions">
+  <button class="btn btn-primary" onclick="previewBaixa()">👁️ Visualizar</button>
+  <button class="btn btn-success" onclick="salvarBaixa()">💾 Salvar Baixa</button>
+  <button class="btn btn-purple"  onclick="copiarBaixa()">📋 Copiar Texto</button>
+  <button class="btn btn-warning" onclick="limparFormulario()">🗑️ Limpar</button>
+</div>
+
+<!-- Preview -->
+<div class="preview-card" id="previewCard">
+  <div class="preview-header">
+    <h3>📄 Preview da Baixa</h3>
+    <button class="icon-btn"
+            onclick="document.getElementById('previewCard').classList.remove('visible')"
+            style="background:rgba(255,255,255,.2);">✕</button>
+  </div>
+  <div class="preview-body" id="previewBody"></div>
+</div>
+
+<!-- Histórico -->
+<div class="historico-card">
+  <div class="section-title">🗂️ Histórico de Baixas</div>
+  <div class="historico-list" id="historicoList">
+    <div class="empty-state">Nenhuma baixa registrada ainda.</div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  let dioItems = [], napItems = [];
+  let dioCounter = 0, napCounter = 0;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('data').value = new Date().toISOString().split('T')[0];
+    addItem('dio');
+    addItem('nap');
+    renderHistorico();
+  });
+
+  function addItem(tipo) {
+    const list = document.getElementById(`${tipo}-list`);
+    const id   = tipo === 'dio' ? ++dioCounter : ++napCounter;
+    const arr  = tipo === 'dio' ? dioItems : napItems;
+    const itemId = `${tipo}-${id}`;
+    arr.push(itemId);
+
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.id = `row-${itemId}`;
+    row.innerHTML = `
+      <div class="item-num">${arr.length}</div>
+      <input type="number" id="${itemId}-qtd"   placeholder="Qtd. portas" min="1" style="max-width:130px;" />
+      <input type="text"   id="${itemId}-andar" placeholder="Andar / localização. Ex: 3º andar, hall" />
+      <button class="remove-btn" onclick="removeItem('${tipo}','${itemId}')" title="Remover">✕</button>
+    `;
+    list.appendChild(row);
+    renumberItems(tipo);
+  }
+
+  function removeItem(tipo, itemId) {
+    const arr = tipo === 'dio' ? dioItems : napItems;
+    const idx = arr.indexOf(itemId);
+    if (idx > -1) arr.splice(idx, 1);
+    document.getElementById(`row-${itemId}`)?.remove();
+    renumberItems(tipo);
+  }
+
+  function renumberItems(tipo) {
+    document.getElementById(`${tipo}-list`)
+      .querySelectorAll('.item-row')
+      .forEach((row, i) => {
+        const n = row.querySelector('.item-num');
+        if (n) n.textContent = i + 1;
+      });
+  }
+
+  function coletarDados() {
+    const mapItems = arr => arr.map(id => ({
+      qtd:   document.getElementById(`${id}-qtd`)?.value?.trim()   || '',
+      andar: document.getElementById(`${id}-andar`)?.value?.trim() || '',
+    })).filter(d => d.qtd || d.andar);
+
+    return {
+      data:             document.getElementById('data').value,
+      equipe:           document.getElementById('equipe').value.trim(),
+      condominio:       document.getElementById('condominio').value.trim(),
+      endereco:         document.getElementById('endereco').value.trim(),
+      hps:              document.getElementById('hps').value.trim(),
+      fusoes:           document.getElementById('fusoes').value.trim(),
+      disposicao_aptos: document.getElementById('disposicao_aptos').value.trim(),
+      caixa_m:          document.getElementById('caixa_m').value.trim(),
+      dio:              mapItems(dioItems),
+      nap:              mapItems(napItems),
+      cabo_drop_metros: document.getElementById('cabo_drop_metros').value.trim(),
+      cabo_drop_tipo:   document.getElementById('cabo_drop_tipo').value,
+      cabo_rise:        document.getElementById('cabo_rise').value.trim(),
+      observacoes:      document.getElementById('observacoes').value.trim(),
+    };
+  }
+
+  function validar(d) {
+    const erros = [];
+    if (!d.data)       erros.push('Data');
+    if (!d.equipe)     erros.push('Equipe');
+    if (!d.condominio) erros.push('Condomínio');
+    if (!d.endereco)   erros.push('Endereço');
+    if (!d.hps)        erros.push('Quantidade de HPs');
+    return erros;
+  }
+
+  function formatarBaixa(d) {
+    const sep     = '─'.repeat(40);
+    const dataFmt = d.data
+      ? new Date(d.data + 'T12:00:00').toLocaleDateString('pt-BR')
+      : '—';
+
+    const dioStr = d.dio.length
+      ? d.dio.map((item, i) =>
+          `  [${i+1}] ${item.qtd ? item.qtd+' porta(s)' : '?'} → ${item.andar || 'andar não informado'}`
+        ).join('\n')
+      : '—';
+
+    const napStr = d.nap.length
+      ? d.nap.map((item, i) =>
+          `  [${i+1}] ${item.qtd ? item.qtd+' porta(s)' : '?'} → ${item.andar || 'andar não informado'}`
+        ).join('\n')
+      : '—';
+
+    const dropInfo = [
+      d.cabo_drop_metros ? `${d.cabo_drop_metros}m` : null,
+      d.cabo_drop_tipo   ? `(${d.cabo_drop_tipo})`  : null,
+    ].filter(Boolean).join(' ') || '—';
+
+    return [
+      `📡 BAIXA DE SERVIÇO — MDU | CLARO`,
+      sep,
+      `📅 Data           : ${dataFmt}`,
+      `👥 Equipe         : ${d.equipe || '—'}`,
+      sep,
+      `🏢 CONDOMÍNIO`,
+      `   Nome           : ${d.condominio || '—'}`,
+      `   Endereço       : ${d.endereco || '—'}`,
+      sep,
+      `⚙️  INFRAESTRUTURA`,
+      `   HPs            : ${d.hps || '—'}`,
+      `   Fusões         : ${d.fusoes || '—'}`,
+      ``,
+      `   Disposição dos Aptos:`,
+      `   ${d.disposicao_aptos || '—'}`,
+      ``,
+      `   Caixa M:`,
+      `   ${d.caixa_m || '—'}`,
+      sep,
+      `🔲 DIO (${d.dio.length} unidade(s)):`,
+      dioStr,
+      ``,
+      `📦 NAP (${d.nap.length} unidade(s)):`,
+      napStr,
+      sep,
+      `🔌 CABOS`,
+      `   Cabo Drop      : ${dropInfo}`,
+      `   Cabo Rise/Flat : ${d.cabo_rise ? d.cabo_rise+'m' : '—'}`,
+      sep,
+      `📝 OBSERVAÇÕES`,
+      `   ${d.observacoes || 'Nenhuma observação registrada.'}`,
+      sep,
+    ].join('\n');
+  }
+
+  function previewBaixa() {
+    document.getElementById('previewBody').textContent = formatarBaixa(coletarDados());
+    const pc = document.getElementById('previewCard');
+    pc.classList.add('visible');
+    pc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function salvarBaixa() {
+    const d = coletarDados();
+    const erros = validar(d);
+    if (erros.length) { showToast(`⚠️ Preencha: ${erros.join(', ')}`, 'error'); return; }
+    const historico = getHistorico();
+    historico.unshift({
+      id: Date.now(),
+      timestamp: new Date().toISOString(),
+      dados: d,
+      texto: formatarBaixa(d)
+    });
+    localStorage.setItem('mdu_historico', JSON.stringify(historico));
+    renderHistorico();
+    showToast('✅ Baixa salva com sucesso!', 'success');
+  }
+
+  async function copiarBaixa() {
+    const texto = formatarBaixa(coletarDados());
+    try {
+      await navigator.clipboard.writeText(texto);
+      showToast('📋 Texto copiado!', 'success');
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = texto;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('📋 Texto copiado!', 'success');
+    }
+  }
+
+  function limparFormulario() {
+    if (!confirm('Deseja limpar todos os campos do formulário?')) return;
+    ['data','equipe','condominio','endereco','hps','fusoes',
+     'disposicao_aptos','caixa_m','cabo_drop_metros','cabo_rise','observacoes']
+      .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    document.getElementById('cabo_drop_tipo').value = '';
+    dioItems = []; napItems = []; dioCounter = 0; napCounter = 0;
+    document.getElementById('dio-list').innerHTML = '';
+    document.getElementById('nap-list').innerHTML = '';
+    addItem('dio'); addItem('nap');
+    document.getElementById('previewCard').classList.remove('visible');
+    document.getElementById('data').value = new Date().toISOString().split('T')[0];
+    showToast('🗑️ Formulário limpo!');
+  }
+
+  function getHistorico() {
+    try { return JSON.parse(localStorage.getItem('mdu_historico') || '[]'); }
+    catch { return []; }
+  }
+
+  function renderHistorico() {
+    const historico  = getHistorico();
+    const container  = document.getElementById('historicoList');
+    if (!historico.length) {
+      container.innerHTML = '<div class="empty-state">Nenhuma baixa registrada ainda.</div>';
+      return;
+    }
+    container.innerHTML = historico.map(reg => {
+      const dataFmt = new Date(reg.timestamp).toLocaleString('pt-BR');
+      return `
+        <div class="historico-item">
+          <div class="hi-info">
+            <div class="hi-cond">🏢 ${reg.dados.condominio || '(sem nome)'}</div>
+            <div class="hi-meta">📅 ${dataFmt} &nbsp;|&nbsp; 👥 ${reg.dados.equipe || '—'} &nbsp;|&nbsp; HPs: ${reg.dados.hps || '—'}</div>
+          </div>
+          <div class="hi-actions">
+            <button class="icon-btn"        onclick="verRegistro(${reg.id})"     title="Visualizar">👁️</button>
+            <button class="icon-btn"        onclick="copiarRegistro(${reg.id})"  title="Copiar">📋</button>
+            <button class="icon-btn danger" onclick="excluirRegistro(${reg.id})" title="Excluir">🗑️</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function verRegistro(id) {
+    const reg = getHistorico().find(r => r.id === id);
+    if (!reg) return;
+    document.getElementById('previewBody').textContent = reg.texto;
+    const pc = document.getElementById('previewCard');
+    pc.classList.add('visible');
+    pc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function copiarRegistro(id) {
+    const reg = getHistorico().find(r => r.id === id);
+    if (!reg) return;
+    try {
+      await navigator.clipboard.writeText(reg.texto);
+      showToast('📋 Texto copiado!', 'success');
+    } catch {
+      showToast('❌ Erro ao copiar.', 'error');
+    }
+  }
+
+  function excluirRegistro(id) {
+    if (!confirm('Excluir esta baixa do histórico?')) return;
+    localStorage.setItem('mdu_historico',
+      JSON.stringify(getHistorico().filter(r => r.id !== id)));
+    renderHistorico();
+    showToast('🗑️ Registro excluído.', 'success');
+  }
+
+  let toastTimer;
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type}`;
+    void t.offsetWidth;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>
