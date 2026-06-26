@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Baixa de Serviços MDU</title>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
   <style>
     :root {
       --primary: #1a73e8;
@@ -39,29 +40,20 @@
       color: var(--gray-800);
     }
 
-    /* ── HEADER ── */
-    .app-header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
+    .app-header { text-align: center; margin-bottom: 28px; }
 
-    /* Esfera Claro — proporção 1:1 */
     .claro-sphere-wrap {
       display: inline-block;
-      width: 140px;
-      height: 140px;
+      width: 140px; height: 140px;
       margin-bottom: 10px;
       filter: drop-shadow(0 8px 28px rgba(180,10,16,0.55));
     }
 
     .app-header p {
       color: rgba(255,255,255,0.65);
-      font-size: 0.88rem;
-      margin-top: 4px;
-      letter-spacing: 0.4px;
+      font-size: 0.88rem; margin-top: 4px; letter-spacing: 0.4px;
     }
 
-    /* ── CARDS ── */
     .card {
       background: var(--white);
       border-radius: var(--radius);
@@ -73,9 +65,7 @@
 
     .card-header {
       padding: 16px 22px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 10px;
       border-bottom: 1px solid var(--gray-200);
     }
 
@@ -91,7 +81,6 @@
 
     .card-body { padding: 20px 22px; }
 
-    /* ── GRID ── */
     .form-grid        { display: grid; gap: 16px; }
     .form-grid.cols-2 { grid-template-columns: 1fr 1fr; }
     .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
@@ -105,26 +94,16 @@
     .form-group.full { grid-column: 1 / -1; }
 
     label {
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.82rem; font-weight: 600;
       color: var(--gray-700);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      text-transform: uppercase; letter-spacing: 0.5px;
     }
-
     label .required { color: var(--danger); margin-left: 3px; }
-
     label .badge {
       display: inline-block;
-      background: var(--primary-light);
-      color: var(--primary);
-      font-size: 0.70rem;
-      padding: 1px 7px;
-      border-radius: 20px;
-      margin-left: 6px;
-      text-transform: none;
-      letter-spacing: 0;
-      font-weight: 500;
+      background: var(--primary-light); color: var(--primary);
+      font-size: 0.70rem; padding: 1px 7px; border-radius: 20px;
+      margin-left: 6px; text-transform: none; letter-spacing: 0; font-weight: 500;
     }
 
     input[type="text"],
@@ -135,13 +114,10 @@
       padding: 10px 13px;
       border: 1.5px solid var(--gray-300);
       border-radius: var(--radius-sm);
-      font-size: 0.95rem;
-      font-family: inherit;
-      color: var(--gray-800);
-      background: var(--gray-100);
+      font-size: 0.95rem; font-family: inherit;
+      color: var(--gray-800); background: var(--gray-100);
       transition: border-color .2s, box-shadow .2s, background .2s;
-      width: 100%;
-      outline: none;
+      width: 100%; outline: none;
     }
 
     input[type="text"]:focus,
@@ -157,47 +133,35 @@
     textarea { resize: vertical; min-height: 80px; }
 
     select {
-      cursor: pointer;
-      appearance: none;
+      cursor: pointer; appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236c757d' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 13px center;
       padding-right: 36px;
     }
 
-    /* ── DIO / NAP ── */
     .dynamic-section {
       border: 1.5px solid var(--gray-200);
       border-radius: var(--radius-sm);
-      padding: 14px;
-      background: var(--gray-100);
+      padding: 14px; background: var(--gray-100);
     }
 
     .dynamic-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 10px;
     }
 
     .dynamic-header span {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--gray-600);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px;
     }
 
     .items-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
 
     .item-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      background: #fff;
-      border: 1.5px solid var(--gray-300);
-      border-radius: var(--radius-sm);
-      padding: 8px 10px;
+      display: flex; gap: 8px; align-items: center;
+      background: #fff; border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-sm); padding: 8px 10px;
       animation: slideIn .18s ease;
     }
 
@@ -220,7 +184,6 @@
       border-radius: 6px; font-size: .88rem;
       background: var(--gray-100);
     }
-
     .item-row input:focus { border-color: var(--primary); background: #fff; outline: none; }
 
     .item-row .remove-btn {
@@ -240,20 +203,14 @@
     }
     .add-btn:hover { background: var(--primary-light); }
 
-    /* ── CABO DROP ── */
     .cabo-drop-group { display: flex; gap: 10px; }
     .cabo-drop-group input  { flex: 1; }
     .cabo-drop-group select { flex: 0 0 130px; }
 
-    /* ── PREVIEW ── */
     .preview-card {
-      background: var(--dark);
-      border-radius: var(--radius);
-      overflow: hidden;
-      max-width: 760px;
-      margin: 0 auto 20px;
-      box-shadow: var(--shadow-lg);
-      display: none;
+      background: var(--dark); border-radius: var(--radius);
+      overflow: hidden; max-width: 760px;
+      margin: 0 auto 20px; box-shadow: var(--shadow-lg); display: none;
     }
     .preview-card.visible { display: block; }
 
@@ -271,7 +228,6 @@
       white-space: pre-wrap; word-break: break-word;
     }
 
-    /* ── ACTIONS ── */
     .actions {
       max-width: 760px; margin: 0 auto 30px;
       display: flex; gap: 12px; flex-wrap: wrap;
@@ -292,8 +248,8 @@
     .btn-success { background: linear-gradient(135deg, #1e8449, #27ae60); color: #fff; }
     .btn-warning { background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff; }
     .btn-purple  { background: linear-gradient(135deg, #6c3483, #9b59b6); color: #fff; }
+    .btn-excel   { background: linear-gradient(135deg, #1d6f42, #2e9e60); color: #fff; }
 
-    /* ── TOAST ── */
     .toast {
       position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(80px);
@@ -308,9 +264,13 @@
     .toast.success { background: linear-gradient(135deg, #1e8449, #27ae60); }
     .toast.error   { background: linear-gradient(135deg, #922b21, #e74c3c); }
 
-    /* ── HISTÓRICO ── */
     .historico-card { max-width: 760px; margin: 0 auto 30px; }
     .historico-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .historico-header {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;
+    }
 
     .historico-item {
       background: rgba(255,255,255,.08);
@@ -324,6 +284,7 @@
     .historico-item:hover { background: rgba(255,255,255,.14); }
 
     .historico-item .hi-info .hi-cond { font-weight: 700; color: #fff; font-size: .95rem; }
+    .historico-item .hi-info .hi-rua  { color: rgba(255,255,255,.75); font-size: .82rem; margin-top: 3px; }
     .historico-item .hi-info .hi-meta { color: rgba(255,255,255,.55); font-size: .78rem; margin-top: 2px; }
     .historico-item .hi-actions       { display: flex; gap: 6px; flex-shrink: 0; }
 
@@ -342,95 +303,62 @@
 
     .section-title {
       color: #fff; font-size: 1rem; font-weight: 700;
-      margin-bottom: 12px;
       display: flex; align-items: center; gap: 8px;
     }
 
     .hint { font-size: .76rem; color: var(--gray-500); margin-top: 2px; }
+
+    /* Badge contador do histórico */
+    .hist-count {
+      background: rgba(255,255,255,.18);
+      color: #fff; font-size: .75rem; font-weight: 700;
+      padding: 2px 10px; border-radius: 20px; margin-left: 8px;
+    }
   </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     HEADER — Logo Claro (esfera 3D, 1:1)
-══════════════════════════════════════ -->
+<!-- HEADER -->
 <div class="app-header">
-
-  <!-- SVG 1:1 — esfera vermelha glossy com wordmark Claro -->
   <div class="claro-sphere-wrap">
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"
-         xmlns:xlink="http://www.w3.org/1999/xlink"
          width="140" height="140" aria-label="Logo Claro">
       <defs>
-        <!-- Gradiente radial: simula o brilho da esfera -->
         <radialGradient id="sphereGrad" cx="42%" cy="28%" r="65%">
           <stop offset="0%"   stop-color="#ff5c5c"/>
           <stop offset="35%"  stop-color="#d9111a"/>
           <stop offset="75%"  stop-color="#a00010"/>
           <stop offset="100%" stop-color="#6b0008"/>
         </radialGradient>
-
-        <!-- Reflexo superior esquerdo -->
         <radialGradient id="glossTop" cx="38%" cy="22%" r="40%">
           <stop offset="0%"  stop-color="#ffffff" stop-opacity="0.55"/>
           <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
         </radialGradient>
-
-        <!-- Reflexo inferior suave -->
         <radialGradient id="glossBottom" cx="60%" cy="92%" r="35%">
           <stop offset="0%"  stop-color="#ff8080" stop-opacity="0.30"/>
           <stop offset="100%" stop-color="#ff8080" stop-opacity="0"/>
         </radialGradient>
-
-        <!-- Sombra projetada embaixo -->
         <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
           <stop offset="0%"  stop-color="#000" stop-opacity="0.35"/>
           <stop offset="100%" stop-color="#000" stop-opacity="0"/>
         </radialGradient>
-
         <clipPath id="circleClip">
           <circle cx="100" cy="100" r="96"/>
         </clipPath>
       </defs>
-
-      <!-- Sombra embaixo da esfera -->
       <ellipse cx="100" cy="194" rx="68" ry="9" fill="url(#shadowGrad)"/>
-
-      <!-- Corpo da esfera -->
       <circle cx="100" cy="100" r="96" fill="url(#sphereGrad)"/>
-
-      <!-- Reflexo brilhante superior -->
       <circle cx="100" cy="100" r="96" fill="url(#glossTop)" clip-path="url(#circleClip)"/>
-
-      <!-- Reflexo suave inferior -->
       <circle cx="100" cy="100" r="96" fill="url(#glossBottom)" clip-path="url(#circleClip)"/>
-
-      <!-- Borda sutil escura para definir a esfera -->
       <circle cx="100" cy="100" r="96" fill="none" stroke="#7a0008" stroke-width="1.5" opacity="0.6"/>
-
-      <!-- ── WORDMARK "Claro" ── -->
-      <text
-        x="18" y="118"
+      <text x="18" y="118"
         font-family="'Arial Rounded MT Bold','Arial Black',Arial,sans-serif"
-        font-size="52"
-        font-weight="900"
-        fill="#ffffff"
-        letter-spacing="-0.5"
-      >Claro</text>
-
-      <!-- ── SÍMBOLO DE SINAL (três traços estilizados) ── -->
-      <!-- traço diagonal ascendente (longo) -->
-      <line x1="155" y1="72" x2="174" y2="46"
-            stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
-      <!-- traço horizontal (médio) -->
-      <line x1="155" y1="78" x2="180" y2="78"
-            stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
-      <!-- traço diagonal descendente (curto) -->
-      <line x1="155" y1="84" x2="166" y2="100"
-            stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+        font-size="52" font-weight="900" fill="#ffffff" letter-spacing="-0.5">Claro</text>
+      <line x1="155" y1="72" x2="174" y2="46" stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+      <line x1="155" y1="78" x2="180" y2="78" stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+      <line x1="155" y1="84" x2="166" y2="100" stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
     </svg>
   </div>
-
   <p>Registro de Baixa de Serviços em Condomínios</p>
 </div>
 
@@ -455,8 +383,20 @@
         <input type="text" id="condominio" placeholder="Nome do condomínio" />
       </div>
       <div class="form-group">
-        <label for="endereco">Endereço <span class="required">*</span></label>
-        <input type="text" id="endereco" placeholder="Rua, número, bairro, cidade" />
+        <label for="rua">Rua <span class="required">*</span></label>
+        <input type="text" id="rua" placeholder="Nome da rua" />
+      </div>
+      <div class="form-group">
+        <label for="numero">Número <span class="required">*</span></label>
+        <input type="text" id="numero" placeholder="Número do endereço" />
+      </div>
+      <div class="form-group">
+        <label for="bairro">Bairro <span class="required">*</span></label>
+        <input type="text" id="bairro" placeholder="Nome do bairro" />
+      </div>
+      <div class="form-group full">
+        <label for="cidade">Cidade <span class="required">*</span></label>
+        <input type="text" id="cidade" placeholder="Nome da cidade" />
       </div>
     </div>
   </div>
@@ -506,7 +446,7 @@
       <div class="items-list" id="dio-list"></div>
       <button class="add-btn" onclick="addItem('dio')">➕ Adicionar DIO</button>
     </div>
-    <p class="hint" style="margin-top:8px;">Para cada DIO, informe a quantidade de portas e o andar onde está instalado.</p>
+    <p class="hint" style="margin-top:8px;">Para cada DIO, informe o andar / localização onde está instalado.</p>
   </div>
 </div>
 
@@ -524,7 +464,7 @@
       <div class="items-list" id="nap-list"></div>
       <button class="add-btn" onclick="addItem('nap')">➕ Adicionar NAP</button>
     </div>
-    <p class="hint" style="margin-top:8px;">Para cada NAP, informe a quantidade de portas e o andar onde está instalado.</p>
+    <p class="hint" style="margin-top:8px;">Para cada NAP, informe o andar / localização onde está instalado.</p>
   </div>
 </div>
 
@@ -549,10 +489,20 @@
         </div>
         <p class="hint">Informe a metragem utilizada e o tipo de fibra do cabo drop.</p>
       </div>
+      <div class="form-group full">
+        <label for="cabo_drop_descarte">Descarte — Cabo Drop</label>
+        <input type="number" id="cabo_drop_descarte" placeholder="Metragem descartada (m)" min="0" step="0.5" />
+        <p class="hint">Informe a metragem descartada do cabo drop.</p>
+      </div>
       <div class="form-group">
         <label for="cabo_rise">Cabo Rise / Flat</label>
         <input type="number" id="cabo_rise" placeholder="Metragem utilizada (m)" min="0" step="0.5" />
         <p class="hint">Somente a metragem utilizada.</p>
+      </div>
+      <div class="form-group">
+        <label for="cabo_rise_descarte">Descarte — Cabo Rise / Flat</label>
+        <input type="number" id="cabo_rise_descarte" placeholder="Metragem descartada (m)" min="0" step="0.5" />
+        <p class="hint">Informe a metragem descartada do cabo Rise / Flat.</p>
       </div>
     </div>
   </div>
@@ -567,7 +517,8 @@
   <div class="card-body">
     <div class="form-group">
       <label for="observacoes">Observações Gerais <span class="badge">Opcional</span></label>
-      <textarea id="observacoes" style="min-height:100px;" placeholder="Registre aqui qualquer ocorrência, pendência, dificuldade técnica, materiais extras utilizados, etc."></textarea>
+      <textarea id="observacoes" style="min-height:100px;"
+        placeholder="Registre aqui qualquer ocorrência, pendência, dificuldade técnica, materiais extras utilizados, etc."></textarea>
     </div>
   </div>
 </div>
@@ -593,7 +544,17 @@
 
 <!-- Histórico -->
 <div class="historico-card">
-  <div class="section-title">🗂️ Histórico de Baixas</div>
+  <div class="historico-header">
+    <div class="section-title">
+      🗂️ Histórico de Baixas
+      <span class="hist-count" id="histCount">0</span>
+    </div>
+    <button class="btn btn-excel"
+            style="flex:none; min-width:auto; padding:10px 20px; font-size:.88rem;"
+            onclick="exportarXLSX()">
+      📊 Exportar Excel
+    </button>
+  </div>
   <div class="historico-list" id="historicoList">
     <div class="empty-state">Nenhuma baixa registrada ainda.</div>
   </div>
@@ -614,9 +575,9 @@
   });
 
   function addItem(tipo) {
-    const list = document.getElementById(`${tipo}-list`);
-    const id   = tipo === 'dio' ? ++dioCounter : ++napCounter;
-    const arr  = tipo === 'dio' ? dioItems : napItems;
+    const list   = document.getElementById(`${tipo}-list`);
+    const id     = tipo === 'dio' ? ++dioCounter : ++napCounter;
+    const arr    = tipo === 'dio' ? dioItems : napItems;
     const itemId = `${tipo}-${id}`;
     arr.push(itemId);
 
@@ -625,9 +586,11 @@
     row.id = `row-${itemId}`;
     row.innerHTML = `
       <div class="item-num">${arr.length}</div>
-      <input type="number" id="${itemId}-qtd"   placeholder="Qtd. portas" min="1" style="max-width:130px;" />
-      <input type="text"   id="${itemId}-andar" placeholder="Andar / localização. Ex: 3º andar, hall" />
-      <button class="remove-btn" onclick="removeItem('${tipo}','${itemId}')" title="Remover">✕</button>
+      <input type="text" id="${itemId}-andar"
+             placeholder="Andar / localização. Ex: 3º andar, hall" />
+      <button class="remove-btn"
+              onclick="removeItem('${tipo}','${itemId}')"
+              title="Remover">✕</button>
     `;
     list.appendChild(row);
     renumberItems(tipo);
@@ -652,25 +615,29 @@
 
   function coletarDados() {
     const mapItems = arr => arr.map(id => ({
-      qtd:   document.getElementById(`${id}-qtd`)?.value?.trim()   || '',
       andar: document.getElementById(`${id}-andar`)?.value?.trim() || '',
-    })).filter(d => d.qtd || d.andar);
+    })).filter(d => d.andar);
 
     return {
-      data:             document.getElementById('data').value,
-      equipe:           document.getElementById('equipe').value.trim(),
-      condominio:       document.getElementById('condominio').value.trim(),
-      endereco:         document.getElementById('endereco').value.trim(),
-      hps:              document.getElementById('hps').value.trim(),
-      fusoes:           document.getElementById('fusoes').value.trim(),
-      disposicao_aptos: document.getElementById('disposicao_aptos').value.trim(),
-      caixa_m:          document.getElementById('caixa_m').value.trim(),
-      dio:              mapItems(dioItems),
-      nap:              mapItems(napItems),
-      cabo_drop_metros: document.getElementById('cabo_drop_metros').value.trim(),
-      cabo_drop_tipo:   document.getElementById('cabo_drop_tipo').value,
-      cabo_rise:        document.getElementById('cabo_rise').value.trim(),
-      observacoes:      document.getElementById('observacoes').value.trim(),
+      data:               document.getElementById('data').value,
+      equipe:             document.getElementById('equipe').value.trim(),
+      condominio:         document.getElementById('condominio').value.trim(),
+      rua:                document.getElementById('rua').value.trim(),
+      numero:             document.getElementById('numero').value.trim(),
+      bairro:             document.getElementById('bairro').value.trim(),
+      cidade:             document.getElementById('cidade').value.trim(),
+      hps:                document.getElementById('hps').value.trim(),
+      fusoes:             document.getElementById('fusoes').value.trim(),
+      disposicao_aptos:   document.getElementById('disposicao_aptos').value.trim(),
+      caixa_m:            document.getElementById('caixa_m').value.trim(),
+      dio:                mapItems(dioItems),
+      nap:                mapItems(napItems),
+      cabo_drop_metros:   document.getElementById('cabo_drop_metros').value.trim(),
+      cabo_drop_tipo:     document.getElementById('cabo_drop_tipo').value,
+      cabo_drop_descarte: document.getElementById('cabo_drop_descarte').value.trim(),
+      cabo_rise:          document.getElementById('cabo_rise').value.trim(),
+      cabo_rise_descarte: document.getElementById('cabo_rise_descarte').value.trim(),
+      observacoes:        document.getElementById('observacoes').value.trim(),
     };
   }
 
@@ -679,7 +646,10 @@
     if (!d.data)       erros.push('Data');
     if (!d.equipe)     erros.push('Equipe');
     if (!d.condominio) erros.push('Condomínio');
-    if (!d.endereco)   erros.push('Endereço');
+    if (!d.rua)        erros.push('Rua');
+    if (!d.numero)     erros.push('Número');
+    if (!d.bairro)     erros.push('Bairro');
+    if (!d.cidade)     erros.push('Cidade');
     if (!d.hps)        erros.push('Quantidade de HPs');
     return erros;
   }
@@ -691,15 +661,11 @@
       : '—';
 
     const dioStr = d.dio.length
-      ? d.dio.map((item, i) =>
-          `  [${i+1}] ${item.qtd ? item.qtd+' porta(s)' : '?'} → ${item.andar || 'andar não informado'}`
-        ).join('\n')
+      ? d.dio.map((item, i) => `  [${i+1}] ${item.andar || 'localização não informada'}`).join('\n')
       : '—';
 
     const napStr = d.nap.length
-      ? d.nap.map((item, i) =>
-          `  [${i+1}] ${item.qtd ? item.qtd+' porta(s)' : '?'} → ${item.andar || 'andar não informado'}`
-        ).join('\n')
+      ? d.nap.map((item, i) => `  [${i+1}] ${item.andar || 'localização não informada'}`).join('\n')
       : '—';
 
     const dropInfo = [
@@ -715,7 +681,9 @@
       sep,
       `🏢 CONDOMÍNIO`,
       `   Nome           : ${d.condominio || '—'}`,
-      `   Endereço       : ${d.endereco || '—'}`,
+      `   Rua            : ${d.rua || '—'}, ${d.numero || 's/n'}`,
+      `   Bairro         : ${d.bairro || '—'}`,
+      `   Cidade         : ${d.cidade || '—'}`,
       sep,
       `⚙️  INFRAESTRUTURA`,
       `   HPs            : ${d.hps || '—'}`,
@@ -735,7 +703,9 @@
       sep,
       `🔌 CABOS`,
       `   Cabo Drop      : ${dropInfo}`,
+      `   Descarte Drop  : ${d.cabo_drop_descarte ? d.cabo_drop_descarte+'m' : '—'}`,
       `   Cabo Rise/Flat : ${d.cabo_rise ? d.cabo_rise+'m' : '—'}`,
+      `   Descarte Rise  : ${d.cabo_rise_descarte ? d.cabo_rise_descarte+'m' : '—'}`,
       sep,
       `📝 OBSERVAÇÕES`,
       `   ${d.observacoes || 'Nenhuma observação registrada.'}`,
@@ -784,8 +754,10 @@
 
   function limparFormulario() {
     if (!confirm('Deseja limpar todos os campos do formulário?')) return;
-    ['data','equipe','condominio','endereco','hps','fusoes',
-     'disposicao_aptos','caixa_m','cabo_drop_metros','cabo_rise','observacoes']
+    ['data','equipe','condominio','rua','numero','bairro','cidade',
+     'hps','fusoes','disposicao_aptos','caixa_m',
+     'cabo_drop_metros','cabo_drop_descarte',
+     'cabo_rise','cabo_rise_descarte','observacoes']
       .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
     document.getElementById('cabo_drop_tipo').value = '';
     dioItems = []; napItems = []; dioCounter = 0; napCounter = 0;
@@ -803,18 +775,26 @@
   }
 
   function renderHistorico() {
-    const historico  = getHistorico();
-    const container  = document.getElementById('historicoList');
+    const historico = getHistorico();
+    const container = document.getElementById('historicoList');
+    const countEl   = document.getElementById('histCount');
+    if (countEl) countEl.textContent = historico.length;
+
     if (!historico.length) {
       container.innerHTML = '<div class="empty-state">Nenhuma baixa registrada ainda.</div>';
       return;
     }
+
     container.innerHTML = historico.map(reg => {
       const dataFmt = new Date(reg.timestamp).toLocaleString('pt-BR');
+      const ruaNum  = reg.dados.rua
+        ? `📍 ${reg.dados.rua}${reg.dados.numero ? ', ' + reg.dados.numero : ''}`
+        : '';
       return `
         <div class="historico-item">
           <div class="hi-info">
             <div class="hi-cond">🏢 ${reg.dados.condominio || '(sem nome)'}</div>
+            ${ruaNum ? `<div class="hi-rua">${ruaNum}</div>` : ''}
             <div class="hi-meta">📅 ${dataFmt} &nbsp;|&nbsp; 👥 ${reg.dados.equipe || '—'} &nbsp;|&nbsp; HPs: ${reg.dados.hps || '—'}</div>
           </div>
           <div class="hi-actions">
@@ -852,6 +832,124 @@
       JSON.stringify(getHistorico().filter(r => r.id !== id)));
     renderHistorico();
     showToast('🗑️ Registro excluído.', 'success');
+  }
+
+  // ══════════════════════════════════════════
+  //  EXPORTAR XLSX
+  // ══════════════════════════════════════════
+  function exportarXLSX() {
+    const historico = getHistorico();
+    if (!historico.length) {
+      showToast('⚠️ Nenhuma baixa para exportar.', 'error');
+      return;
+    }
+
+    // ── Aba 1: Consolidado (uma linha por baixa) ──
+    const consolidado = historico.map(reg => {
+      const d = reg.dados;
+      const dataFmt = d.data
+        ? new Date(d.data + 'T12:00:00').toLocaleDateString('pt-BR')
+        : '';
+      return {
+        'Data':                  dataFmt,
+        'Equipe':                d.equipe || '',
+        'Condomínio':            d.condominio || '',
+        'Rua':                   d.rua || '',
+        'Número':                d.numero || '',
+        'Bairro':                d.bairro || '',
+        'Cidade':                d.cidade || '',
+        'HPs':                   d.hps ? Number(d.hps) : '',
+        'Fusões':                d.fusoes ? Number(d.fusoes) : '',
+        'Disposição Aptos':      d.disposicao_aptos || '',
+        'Caixa M':               d.caixa_m || '',
+        'Qtd. DIOs':             d.dio?.length || 0,
+        'DIO — Localizações':    d.dio?.map((x,i) => `DIO ${i+1}: ${x.andar}`).join(' | ') || '',
+        'Qtd. NAPs':             d.nap?.length || 0,
+        'NAP — Localizações':    d.nap?.map((x,i) => `NAP ${i+1}: ${x.andar}`).join(' | ') || '',
+        'Cabo Drop (m)':         d.cabo_drop_metros ? Number(d.cabo_drop_metros) : '',
+        'Tipo Fibra Drop':       d.cabo_drop_tipo || '',
+        'Descarte Drop (m)':     d.cabo_drop_descarte ? Number(d.cabo_drop_descarte) : '',
+        'Cabo Rise/Flat (m)':    d.cabo_rise ? Number(d.cabo_rise) : '',
+        'Descarte Rise/Flat (m)':d.cabo_rise_descarte ? Number(d.cabo_rise_descarte) : '',
+        'Observações':           d.observacoes || '',
+      };
+    });
+
+    // ── Aba 2: Resumo por cidade ──
+    const porCidade = {};
+    historico.forEach(reg => {
+      const d    = reg.dados;
+      const key  = (d.cidade || 'Não informada').trim();
+      if (!porCidade[key]) porCidade[key] = { baixas: 0, hps: 0, fusoes: 0, dropTotal: 0, riseTotal: 0 };
+      porCidade[key].baixas++;
+      porCidade[key].hps        += Number(d.hps)               || 0;
+      porCidade[key].fusoes     += Number(d.fusoes)            || 0;
+      porCidade[key].dropTotal  += Number(d.cabo_drop_metros)  || 0;
+      porCidade[key].riseTotal  += Number(d.cabo_rise)         || 0;
+    });
+
+    const resumoCidade = Object.entries(porCidade).map(([cidade, v]) => ({
+      'Cidade':              cidade,
+      'Total de Baixas':     v.baixas,
+      'Total HPs':           v.hps,
+      'Total Fusões':        v.fusoes,
+      'Total Cabo Drop (m)': v.dropTotal,
+      'Total Rise/Flat (m)': v.riseTotal,
+    }));
+
+    // ── Aba 3: Resumo por equipe ──
+    const porEquipe = {};
+    historico.forEach(reg => {
+      const d   = reg.dados;
+      const key = (d.equipe || 'Não informada').trim();
+      if (!porEquipe[key]) porEquipe[key] = { baixas: 0, hps: 0, fusoes: 0, dropTotal: 0, riseTotal: 0 };
+      porEquipe[key].baixas++;
+      porEquipe[key].hps        += Number(d.hps)               || 0;
+      porEquipe[key].fusoes     += Number(d.fusoes)            || 0;
+      porEquipe[key].dropTotal  += Number(d.cabo_drop_metros)  || 0;
+      porEquipe[key].riseTotal  += Number(d.cabo_rise)         || 0;
+    });
+
+    const resumoEquipe = Object.entries(porEquipe).map(([equipe, v]) => ({
+      'Equipe':              equipe,
+      'Total de Baixas':     v.baixas,
+      'Total HPs':           v.hps,
+      'Total Fusões':        v.fusoes,
+      'Total Cabo Drop (m)': v.dropTotal,
+      'Total Rise/Flat (m)': v.riseTotal,
+    }));
+
+    // ── Montar workbook ──
+    const wb = XLSX.utils.book_new();
+
+    const wsConsolidado = XLSX.utils.json_to_sheet(consolidado);
+    estilizarColunas(wsConsolidado, consolidado);
+    XLSX.utils.book_append_sheet(wb, wsConsolidado, '📋 Consolidado');
+
+    const wsResuCidade = XLSX.utils.json_to_sheet(resumoCidade);
+    estilizarColunas(wsResuCidade, resumoCidade);
+    XLSX.utils.book_append_sheet(wb, wsResuCidade, '🏙️ Por Cidade');
+
+    const wsResuEquipe = XLSX.utils.json_to_sheet(resumoEquipe);
+    estilizarColunas(wsResuEquipe, resumoEquipe);
+    XLSX.utils.book_append_sheet(wb, wsResuEquipe, '👥 Por Equipe');
+
+    const dataHoje = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, `relatorio_mdu_${dataHoje}.xlsx`);
+    showToast('📊 Excel exportado com sucesso!', 'success');
+  }
+
+  // Ajusta largura das colunas automaticamente
+  function estilizarColunas(ws, data) {
+    if (!data.length) return;
+    const cols = Object.keys(data[0]);
+    ws['!cols'] = cols.map(col => {
+      const maxLen = Math.max(
+        col.length,
+        ...data.map(row => String(row[col] ?? '').length)
+      );
+      return { wch: Math.min(maxLen + 4, 50) };
+    });
   }
 
   let toastTimer;
